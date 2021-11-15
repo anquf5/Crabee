@@ -25,7 +25,7 @@
               </div>
               <div class="tile is-child block">
                 <div class="content">
-                  <h4 class="mt-6"><strong>Reviews</strong></h4>
+                  <h3 class="mt-6"><strong>Reviews <small>({{ company.get_review_num }})</small></strong></h3>
                   <article class="media mt-4">
                     <div class="media-content">
                       <div class="field">
@@ -40,8 +40,8 @@
                       </div>
                     </div>
                   </article>
-                  <div v-for="review in company.reviews" v-bind:key="review.id" v-bind:company="company">
-                    <article class="media">
+                  <div v-for="review in company.review" v-bind:key="review.id" v-bind:company="company">
+                    <article class="media mt-4">
                       <figure class="media-left">
                         <p class="image is-64x64">
                           <img src="https://bulma.io/images/placeholders/128x128.png">
@@ -52,11 +52,11 @@
                         <div class="content">
                           <div>
                             <p class="is-size-4 has-text-grey-darker">
-                              <strong>A Good Experience </strong>
+                              <strong>{{ review.review_title }}</strong>
                             </p>
-                            <p>Rate: 4.5 Difficulty: Medium</p>
-                            <p>Java Developer</p>
-                            <p class="is-size-6 has-text-grey">The Company always kept up to their price promise, but not too sure what it means to buy now pay later as you are required to pay interest from the day you purchased the item?</p>
+                            <p>Rate: {{ review.rating }} Difficulty: {{ review.iv_difficulty }}</p>
+                            <p>{{ review.job_title }}</p>
+                            <p class="is-size-6 has-text-grey">{{ review.review_cont }}</p>
                             <br>
                           </div>
                         </div>
@@ -113,26 +113,7 @@ export default {
   name: "Company",
   data(){
     return{
-      company:{
-        "id": 2,
-        "name": "Amazon",
-        "intro": "b company",
-        "link": "www.amazon.com",
-        "get_avg": 3,
-        "get_review_num": 1,
-        "review": [
-          {
-            "id": 3,
-            "job_title": "JAVA Developer",
-            "review_title": "a pleasure interview experience",
-            "review_cont": "aaaa",
-            "pub_date": "2021-11-11T16:40:54.327489Z",
-            "rating": 3,
-            "iv_difficulty": 1,
-            "get_reviewer": "diablo"
-          }
-        ]
-      },
+      company:{},
     }
   },
   mounted() {

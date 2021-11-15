@@ -7,5 +7,6 @@ app_name = 'discussion'
 
 urlpatterns = [path('topic/', views.TopicList.as_view(), name='topic'),
                path('topic/add/', views.add_topic, name="add_topic"),
+               path('topic/<int:pk>/', views.TopicDetail.as_view(), name='topic_detail'),
                path('topic/reply/', views.add_reply, name="add_reply")
 ]

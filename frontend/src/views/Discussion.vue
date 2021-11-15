@@ -22,37 +22,13 @@
           </tr>
           </tfoot>
           <tbody>
-          <tr>
-            <th>33</th>
-            <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C.">Recording My First On-Campus Recruitment</a>
+          <tr v-for="topic in topics" v-bind:key="topic.id">
+            <th>{{ topic.get_reply_num }}</th>
+            <td><a href="#">{{ topic.title }}</a>
             </td>
-            <td>User_ABC</td>
-            <td>User_DEF</td>
-            <td>2021-11-22 22:22:22</td>
-          </tr>
-          <tr>
-            <th>33</th>
-            <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C.">Recording My First On-Campus Recruitment</a>
-            </td>
-            <td>User_ABC</td>
-            <td>User_DEF</td>
-            <td>2021-11-22 22:22:22</td>
-          </tr>
-          <tr>
-            <th>33</th>
-            <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C.">Recording My First On-Campus Recruitment</a>
-            </td>
-            <td>User_ABC</td>
-            <td>User_DEF</td>
-            <td>2021-11-22 22:22:22</td>
-          </tr>
-          <tr>
-            <th>33</th>
-            <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C.">Recording My First On-Campus Recruitment</a>
-            </td>
-            <td>User_ABC</td>
-            <td>User_DEF</td>
-            <td>2021-11-22 22:22:22</td>
+            <td>{{ topic.get_creator }}</td>
+            <td>{{ topic.get_last_replier }}</td>
+            <td>{{ topic.get_update_time }}</td>
           </tr>
           </tbody>
         </table>
@@ -123,8 +99,33 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "Discussion"
+  name: "Discussion",
+  data() {
+    return {
+      topics: []
+    }
+  },
+  components: {
+
+  },
+  mounted() {
+    this.getTopics()
+  },
+  methods: {
+    getTopics(){
+      axios
+          .get('/api/topic/')
+          .then(response => {
+            this.topics = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
+  }
 }
 </script>
 

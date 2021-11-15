@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -52,6 +54,10 @@ class CompanyReview(models.Model):
     def get_reviewer(self):
         un = User.objects.get(pk=self.reviewer_id).username
         return un
+
+    def format_time(self):
+        t = datetime.datetime.now()
+        return t
 
     def __str__(self):
         return self.review_title

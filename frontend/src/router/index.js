@@ -26,7 +26,7 @@ const routes = [
     component: () => import('../views/Discussion.vue')
   },
   {
-    path: '/t',
+    path: '/topic/:id',
     name: 'TopicDetail',
     component: () => import('../views/TopicDetail.vue')
   }
