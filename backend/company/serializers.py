@@ -11,7 +11,7 @@ class CompanyReviewSerializer(serializers.ModelSerializer):
                   'job_title',
                   'review_title',
                   'review_cont',
-                  'pub_date',
+                  'format_time',
                   'rating',
                   'iv_difficulty',
                   'get_reviewer',

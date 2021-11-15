@@ -1,3 +1,5 @@
+import datetime
+
 from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
@@ -39,6 +41,8 @@ class ReviewList(APIView):
     def get(self, request, company_id, format=None):
         review = self.get_object(company_id)
         serializer = CompanyReviewSerializer(review)
+        now = datetime.datetime.now()
+        print(review.pub_date-now)
         return Response(serializer.data)
 
     def get_object(self, company_id):

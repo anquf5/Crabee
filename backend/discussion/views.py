@@ -5,7 +5,7 @@ from django.http import Http404, JsonResponse
 from rest_framework.decorators import api_view
 
 from .models import Topic, TopicReply
-from .serializers import TopicSerializer, TopicReplySerializer
+from .serializers import TopicSerializer, TopicDetailSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -18,25 +18,13 @@ class TopicList(APIView):
 class TopicDetail(APIView):
     def get(self, request, pk, format=None):
         topic = self.get_object(pk)
-        serializer = TopicSerializer(topic)
+        serializer = TopicDetailSerializer(topic)
         return Response(serializer.data)
 
     def get_object(self, pk):
         try:
             return Topic.objects.get(pk=pk)
         except Topic.DoesNotExist:
-            raise Http404
-
-class TopicReplyList(APIView):
-    def get(self, request, topic_id, format=None):
-        reply = self.get_object(topic_id)
-        serializer = TopicReplySerializer(reply)
-        return Response(serializer.data)
-
-    def get_object(self, topic_id):
-        try:
-            return TopicReply.objects.get(topic_id=topic_id)
-        except TopicReply.DoesNotExist:
             raise Http404
 
 # Post topic
