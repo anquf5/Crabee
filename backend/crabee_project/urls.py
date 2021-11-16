@@ -26,5 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('company.urls')),
     path('api/', include('discussion.urls')),
-    path('', TemplateView.as_view(template_name='index.html'))
+    path('api/', include('user.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

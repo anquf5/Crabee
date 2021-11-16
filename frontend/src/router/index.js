@@ -29,6 +29,11 @@ const routes = [
     path: '/topic/:id',
     name: 'TopicDetail',
     component: () => import('../views/TopicDetail.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue')
   }
 ]
 
