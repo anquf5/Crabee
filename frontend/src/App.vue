@@ -13,11 +13,10 @@
 
       <div class="navbar-end">
         <router-link to="/company" class="navbar-item">Company</router-link>
-        <router-link to="/Discussion" class="navbar-item">Discussion</router-link>
-
+        <router-link to="/discussion" class="navbar-item">Discussion</router-link>
         <div class="navbar-item">
           <div class="buttons">
-            <router-link to="/log-in" class="button is-light">
+            <router-link to="/login" class="button is-light">
               <span class="icon-text">
                 <span class="icon">
                   <i class="fas fa-user"></i>
