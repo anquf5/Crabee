@@ -27,5 +27,6 @@ class CompanySerializer(serializers.ModelSerializer):
                   'link',
                   'get_avg',
                   'get_review_num',
-                  'review'
+                  'review',
+                  'get_absolute_url'
         )

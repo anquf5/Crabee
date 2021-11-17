@@ -16,14 +16,28 @@
         <router-link to="/discussion" class="navbar-item">Discussion</router-link>
         <div class="navbar-item">
           <div class="buttons">
-            <router-link to="/login" class="button is-light">
+            <template v-if="$store.state.isLogin">
+              <div class="buttons">
+                <router-link to="/myaccount" class="button is-light">
+                  <span class="icon-text">
+                    <span class="icon">
+                      <i class="fas fa-user"></i>
+                    </span>
+                    <span>My account</span>
+                  </span>
+                </router-link>
+              </div>
+            </template>
+            <template v-else>
+              <router-link to="/login" class="button is-light">
               <span class="icon-text">
                 <span class="icon">
                   <i class="fas fa-user"></i>
                 </span>
                 <span>Log in</span>
               </span>
-            </router-link>
+              </router-link>
+            </template>
           </div>
         </div>
       </div>

@@ -26,20 +26,66 @@
               <div class="tile is-child block">
                 <div class="content">
                   <h3 class="mt-6"><strong>Reviews <small>({{ company.get_review_num }})</small></strong></h3>
-                  <article class="media mt-4">
-                    <div class="media-content">
+                    <form @submit.prevent="addReview">
+
+                      <div class="field">
+                        <label class="label">Rate</label>
+                        <div class="control">
+                          <div class="select">
+                            <select v-model="formData.rate">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <label class="label">Interview difficulty</label>
+                        <div class="control">
+                          <div class="select">
+                            <select v-model="formData.difficulty">
+                              <option>Easy</option>
+                              <option>Normal</option>
+                              <option>Difficult</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="field">
+                          <label class="label">Job</label>
+                          <div class="control">
+                            <input class="input" placeholder="Job Title" v-model="formData.job_title">
+                          </div>
+                      </div>
+
+                      <div class="field">
+                          <label class="label">Review title</label>
+                          <div class="control is-medium">
+                            <input class="input" placeholder="Title" v-model="formData.title">
+                          </div>
+                      </div>
+
+                      <div class="field">
+                          <label class="label">Content</label>
+                          <div class="control">
+                            <textarea class="textarea" type="text" placeholder="Write your review..."></textarea>
+                          </div>
+                      </div>
+
                       <div class="field">
                         <p class="control">
-                          <textarea class="textarea" placeholder="Write your review..."></textarea>
+                          <button class="button is-success">Post comment</button>
                         </p>
                       </div>
-                      <div class="field">
-                        <p class="control">
-                          <button class="button">Post comment</button>
-                        </p>
-                      </div>
-                    </div>
-                  </article>
+                    </form>
+
+
+
                   <div v-for="review in company.review" v-bind:key="review.id" v-bind:company="company">
                     <article class="media mt-4">
                       <figure class="media-left">
@@ -114,6 +160,13 @@ export default {
   data(){
     return{
       company:{},
+      formData: {
+        rate: '',
+        difficulty: '',
+        job_title: '',
+        title: '',
+        content:'',
+      }
     }
   },
   mounted() {
@@ -131,6 +184,23 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    addReview(){
+      const id = this.$route.params.id
+
+      axios.post("/api/company_review/add/", {
+        'cid': id,
+        'job': this.formData.job_title,
+        'title': this.formData.title,
+        'content': this.formData.content,
+        'rate': this.formData.rate,
+        'difficulty': this.formData.difficulty,
+      })
+      .then(response => {
+        if(response.data.msg === 1){
+          this.$router.push({path:"/"});
+      }})
+
     },
   }
 }

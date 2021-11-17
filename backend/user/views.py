@@ -29,8 +29,10 @@ class User(APIView):
         password = request.data.get('password')
         if username is not None and password is not None:
             is_login = authenticate(request, username=username, password=password)
+
             if is_login:
                 login(request,is_login)
+                # session = is_login.objects.get('session')
                 return JsonResponse({'username': username, 'act': 'Log in', 'msg': 1})
             else:
                 return JsonResponse({'username': username, 'act': 'Log in', 'msg': 0})

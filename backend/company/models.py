@@ -26,6 +26,9 @@ class Company(models.Model):
     def get_review_num(self):
         num = CompanyReview.objects.filter(company=self).count()
         return num
+
+    def get_absolute_url(self):
+        return f'/company/{self.id}/'
     # def get_image(self):
     #     if self.img:
     #         return 'http://127.0.0.1:8000' + self.img.url
