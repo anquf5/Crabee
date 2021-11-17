@@ -26,5 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('company.urls')),
     path('api/', include('discussion.urls')),
-    path('api/', include('user.urls')),
+    path('api/', include('djoser.urls')),
+    path('api/', include('djoser.urls.authtoken')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

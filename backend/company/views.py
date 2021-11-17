@@ -5,12 +5,13 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 import json
+
 
 from .models import Company, CompanyReview
 from django.contrib.auth.models import User
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, authentication
 from rest_framework import permissions
 from .serializers import CompanySerializer, CompanyReviewSerializer
 from rest_framework.parsers import JSONParser
@@ -52,19 +53,27 @@ class ReviewList(APIView):
             raise Http404
 
 @api_view(['POST'])
+@authentication_classes([authentication.TokenAuthentication])
 def add_review(request):
-    cid = request.data.get('cid')
+    cid = int(request.data.get('cid'))
     company = Company.objects.get(pk=cid)
-    uid = request.data.get('uid')
-    user = User.objects.get(pk=uid)
-    review_obj = CompanyReview.objects.get_or_create(company=company, reviewer=user)[0]
-    review_obj.job_title = request.data.get('job')
-    review_obj.review_title = request.data.get('title')
-    review_obj.review_cont = request.data.get('content')
-    review_obj.rating = request.data.get('rating')
-    review_obj.iv_difficulty = request.data.get('difficulty')
-    review_obj.save()
-    return JsonResponse({'msg': 'Successful', 'code': '200'}, json_dumps_params={'ensure_ascii': False})
+    print(request.user)
+    # review_obj = CompanyReview.objects.get_or_create(company=company, reviewer=request.user)[0]
+
+    # review_obj.job_title = request.data.get('job')
+    # review_obj.review_title = request.data.get('title')
+    # review_obj.review_cont = request.data.get('content')
+    # review_obj.rating = request.data.get('rate')
+    # difficulty = request.data.get('difficulty')
+    # if difficulty == 'Easy':
+    #     review_obj.iv_difficulty = 0
+    # elif difficulty == 'Medium':
+    #     review_obj.iv_difficulty = 1
+    # elif difficulty == 'Difficulty':
+    #     review_obj.iv_difficulty = 2
+    # review_obj.save()
+
+    return JsonResponse({'msg': 1, 'code': 200, 'cid': cid})
 
 @api_view(['POST'])
 def search(request):

@@ -6,7 +6,7 @@
           <div class="content">
             <h1><strong>Log in</strong></h1>
           </div>
-          <form @submit.prevent="submit">
+          <form @submit.prevent="loginSubmit">
             <div class="field mb-4">
               <p class="control has-icons-left has-icons-right">
                 <input class="input" type="text" placeholder="Username" v-model="username">
@@ -34,9 +34,8 @@
 
                 <div class="navbar-end">
                   <div class="navbar-item">
-                    <router-link to="/sign-up">Click here</router-link>
+                    <router-link to="/signup">Click here&nbsp</router-link>to sign up!
                   </div>
-                  <div class="navbar-item">to sign up!</div>
                 </div>
               </nav>
             </div>
@@ -62,28 +61,31 @@ export default {
     }
   },
   mounted() {
-    document.title = 'Log in'
   },
   methods: {
-    submit() {
+    loginSubmit() {
+
+      axios.defaults.headers.common["Authorization"] = ""
+      localStorage.removeItem("token")
+
       const formData = {
         username: this.username,
         password: this.password
       }
 
       axios
-        .post("/api/user/login/", formData)
+        .post("/api/token/login/", formData)
         .then(response => {
-          if (response.data.msg === 1) {
-            // const toPath = this.$route.query.to || '/discussion';
-            this.$router.push({path:"/"});
-          }
-          // else {
-          //   this.$notify({
-          //     title:'Error',
-          //     msg: 'response.data.msg'
-          //   })
-          // }
+          const token = response.data.auth_token
+
+          this.$store.commit('setToken', token)
+
+          axios.defaults.headers.common["Authorization"] = "Token" + token
+
+          localStorage.setItem("token", token)
+
+          // const toPath = this.$route.query.to || '/discussion';
+          this.$router.push({path:"/"});
 
         })
         .catch(error => {
