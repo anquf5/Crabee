@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import Http404, JsonResponse
 # Create your views here.
-from rest_framework.decorators import api_view
+from rest_framework import authentication
+from rest_framework.decorators import api_view, authentication_classes
 
 from .models import Topic, TopicReply
 from .serializers import TopicSerializer, TopicDetailSerializer
@@ -29,19 +30,19 @@ class TopicDetail(APIView):
 
 # Post topic
 @api_view(['POST'])
+@authentication_classes([authentication.TokenAuthentication])
 def add_topic(request):
-    user = User.objects.get(pk=request.data.get('uid'))
-    topic_obj = Topic.objects.create(creator=user)
+    topic_obj = Topic.objects.create(creator=request.user)
     topic_obj.title = request.data.get('title')
     topic_obj.topic_cont = request.data.get('content')
     topic_obj.save()
-    return JsonResponse({'msg': 'Successful', 'code': '200'})
+    return JsonResponse({'msg': '1', 'code': '200'})
 
 @api_view(['POST'])
+@authentication_classes([authentication.TokenAuthentication])
 def add_reply(request):
     topic = Topic.objects.get(pk=request.data.get('tid'))
-    user = User.objects.get(pk=request.data.get('uid'))
-    reply_obj = TopicReply.objects.create(topic=topic, replier=user)
+    reply_obj = TopicReply.objects.create(topic=topic, replier=request.user)
     reply_obj.reply_cont = request.data.get('content')
     reply_obj.save()
-    return JsonResponse({'msg': 'Successful', 'code': '200'})
+    return JsonResponse({'msg': '1', 'code': '200'})

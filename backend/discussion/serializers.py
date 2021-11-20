@@ -10,13 +10,14 @@ class TopicSerializer(serializers.ModelSerializer):
                   'get_reply_num',
                   'get_last_replier',
                   'get_update_time',
+                  'get_absolute_url'
                   )
 
 class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = TopicReply
         fields = ('id',
-                  'pub_time',
+                  'get_pubtime',
                   'get_replier',
                   'reply_cont',
                   )
@@ -27,7 +28,7 @@ class TopicDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
         fields = ('title',
-                  'pub_time',
+                  'get_pubtime',
                   'get_creator',
                   'topic_cont',
                   'reply'

@@ -8,8 +8,12 @@ from django.conf import settings
 from django.core.files.images import ImageFile
 from company.models import *
 
-companies = [{'name': 'Google', 'intro': 'a company', 'link': 'www.google.com'},
-             {'name': 'Amazon', 'intro': 'b company', 'link': 'www.amazon.com'}
+companies = [{'name': 'Google',
+              'intro': 'a company',
+              'link': 'www.google.com',
+              'logo': 'companyLogo/Google.jpg'},
+             {'name': 'Amazon', 'intro': 'b company', 'link': 'www.amazon.com', 'logo': 'companyLogo/Amazon.jpg'},
+             {'name': 'LinkedIn', 'intro': 'c company', 'link':'www.linkedin.com', 'logo': 'companyLogo/LinkedIn.jpg'}
              ]
 
 users = [{'username': 'diablo', 'password': 'test123', 'email': 'diablo@test.com'},
@@ -21,15 +25,15 @@ users = [{'username': 'diablo', 'password': 'test123', 'email': 'diablo@test.com
 
 def populate():
     for company in companies:
-        add_company(company['name'], company['intro'], company['link'])
+        add_company(company['name'], company['intro'], company['link'], company['logo'])
     for user in users:
         add_user(user['username'], user['password'], user['email'])
 
 
 
 
-def add_company(name, intro, link):
-    p = Company.objects.get_or_create(name=name, intro=intro, link=link)[0]
+def add_company(name, intro, link, logo):
+    p = Company.objects.get_or_create(name=name, intro=intro, link=link, img=logo)[0]
     p.save()
     print(f'- Populate: company {p} added')
     return p

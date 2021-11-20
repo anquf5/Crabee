@@ -24,20 +24,12 @@
               </p>
             </div>
             <div class="field">
-              <nav class="navbar">
-                <div class="navbar-brand">
-                  <div class="control">
-                    <button class="button is-success"><strong>Log in</strong>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="navbar-end">
-                  <div class="navbar-item">
-                    <router-link to="/signup">Click here&nbsp</router-link>to sign up!
-                  </div>
-                </div>
-              </nav>
+              <div class="control">
+                <button class="button is-success"><strong>Log in</strong>
+                </button>
+              </div>
+              <div class="is-divider" data-content="OR"></div>
+              <router-link to="/signup">Click here</router-link> to sign up!
             </div>
           </form>
         </div>
@@ -52,6 +44,7 @@
 <script>
 import axios from 'axios'
 // import {Notification} from 'element-ui'
+import { devided } from 'bulma-divider'
 export default {
   name: "Login",
   data() {

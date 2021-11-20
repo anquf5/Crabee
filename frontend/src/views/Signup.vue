@@ -39,21 +39,18 @@
                 </span>
               </p>
             </div>
-            <div class="field">
-              <nav class="navbar">
-                <div class="navbar-brand">
-                  <div class="control">
-                    <button class="button is-success"><strong>Sign up</strong>
-                    </button>
-                  </div>
-                </div>
 
-                <div class="navbar-end">
-                  <div class="navbar-item">
-                    <router-link to="/sign-up">Click here&nbsp</router-link>to log in!
-                  </div>
-                </div>
-              </nav>
+            <div class="notification is-danger" v-if="errors.length">
+              <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <button class="button is-success"><strong>Sign up</strong>
+                </button>
+              </div>
+              <div class="is-divider" data-content="OR"></div>
+              Have an account? <router-link to="/login">Click here</router-link> to login!
             </div>
           </form>
         </div>
@@ -65,6 +62,7 @@
 <script>
 import axios from 'axios'
 import {toast} from "bulma-toast";
+import { devided } from 'bulma-divider';
 // import {Notification} from 'element-ui'
 export default {
   name: "Signup",
@@ -74,6 +72,7 @@ export default {
       password: '',
       password_v: '',
       email: '',
+      errors:[],
     }
   },
   mounted() {
@@ -90,7 +89,7 @@ export default {
         this.errors.push('Password should be at least 8 characters!')
       }
 
-      if (this.password !== this.password_v) {
+      if (this.password_v !== this.password) {
         this.errors.push('The passwords doesn\'t match')
       }
 

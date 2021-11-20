@@ -5,7 +5,7 @@
         <article class="media">
           <div class="media-left">
             <figure class="image is-64x64">
-              <img src="https://media-exp1.licdn.com/dms/image/C560BAQHTvZwCx4p2Qg/company-logo_100_100/0/1612205615891?e=1645056000&v=beta&t=GQCAhBJWrUvKi2FCuKj6CspWqTp6OW_JQoKjQFr1fvc" alt="Image">
+              <img v-bind:src="company.get_image" alt="Image">
             </figure>
           </div>
           <div class="media-content">

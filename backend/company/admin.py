@@ -11,7 +11,7 @@ class company(admin.ModelAdmin):
     inlines = [reviewsInline]
 
 class companyReview(admin.ModelAdmin):
-    list_display = ['company', 'review_title', 'reviewer', 'pub_date']
+    list_display = ['company', 'review_title', 'reviewer', 'pub_time']
 
 admin.site.register(Company, company)
 admin.site.register(CompanyReview, companyReview)
