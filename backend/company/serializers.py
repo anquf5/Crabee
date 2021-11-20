@@ -3,6 +3,17 @@ from django.contrib.auth.models import User
 from .models import Company, CompanyReview
 from rest_framework import serializers
 
+class CompanyListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id',
+                  'name',
+                  'get_image',
+                  'get_absolute_url',
+                  'get_review_num',
+                  'get_avg'
+                  )
+
 
 class CompanyReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,8 +22,8 @@ class CompanyReviewSerializer(serializers.ModelSerializer):
                   'job_title',
                   'review_title',
                   'review_cont',
-                  'format_time',
-                  'rating',
+                  'get_pubtime',
+                  'rate',
                   'iv_difficulty',
                   'get_reviewer',
         )
@@ -25,8 +36,8 @@ class CompanySerializer(serializers.ModelSerializer):
                   'name',
                   'intro',
                   'link',
+                  'get_image',
                   'get_avg',
                   'get_review_num',
                   'review',
-                  'get_absolute_url'
         )

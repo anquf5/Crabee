@@ -12,7 +12,7 @@
     <div>
       <div class="tile is-ancestor mt-4 mb-4">
         <div class="tile is-parent is-3">
-          <article class="tile is-child box">
+          <article class="tile is-child">
             <article class="media">
               <div class="media-left">
                 <figure class="image is-64x64">
@@ -25,10 +25,16 @@
             </article>
           </article>
         </div>
-        <div class="tile is-parent is-9">
+        <div class="tile is-parent is-6">
           <article class="tile is-child">
             <p class="mx-5">{{ topic.topic_cont }}</p>
           </article>
+        </div>
+        <div class="tile is-parent is-3">
+          <article class="tile is-child">
+            <p class="mx-5">{{ topic.get_pubtime }}</p>
+          </article>
+
         </div>
       </div>
     </div>
@@ -55,7 +61,8 @@
         </div>
       </div>
     </div>
-    <div id="reply">
+
+    <form id="reply" @submit.prevent="addReply">
       <article class="media">
         <figure class="media-left">
           <p class="image is-64x64">
@@ -65,17 +72,17 @@
         <div class="media-content">
           <div class="field">
             <p class="control">
-              <textarea class="textarea" placeholder="Add a comment..."></textarea>
+              <textarea class="textarea" placeholder="Add a comment..." v-model="formData.content"></textarea>
             </p>
           </div>
           <div class="field">
             <p class="control">
-              <button class="button">Post comment</button>
+              <button class="button">Reply</button>
             </p>
           </div>
         </div>
       </article>
-    </div>
+    </form>
   </section>
 </template>
 
@@ -87,6 +94,10 @@ export default {
   data(){
     return{
       topic:{},
+      formData: {
+        id: this.$route.params.id,
+        content:'',
+      }
     }
   },
   mounted() {
@@ -105,6 +116,17 @@ export default {
             console.log(error)
           })
     },
+    addReply(){
+      const id=this.$route.params.id
+      axios.post('/api/topic/reply/',{
+        'tid': this.formData.id,
+        'content': this.formData.content,
+      })
+      .then(response => {
+        location.reload();
+      })
+
+    }
   }
 }
 </script>

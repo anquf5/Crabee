@@ -55,6 +55,44 @@
   </div>
 </template>
 
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      showMobileMenu: false,
+      isRouterAlive: true
+    }
+  },
+  beforeCreate() {
+    this.$store.commit('init')
+
+    const token = this.$store.state.token
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = "Token " + token
+    } else {
+      axios.defaults.headers.common['Authorization'] = ""
+    }
+  },
+  mounted() {
+
+  },
+  provide(){
+    return {reload: this.reload}
+  },
+  methods: {
+    reload(){
+      this.isRouterAlive = false
+      this.$nextTick(function (){
+        this.isRouterAlive = true
+      })
+    }
+  }
+}
+</script>
 <style lang="scss">
 @import '../node_modules/bulma';
 </style>

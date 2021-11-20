@@ -24,7 +24,7 @@
           <tbody>
           <tr v-for="topic in topics" v-bind:key="topic.id">
             <th>{{ topic.get_reply_num }}</th>
-            <td><a href="#">{{ topic.title }}</a>
+            <td><router-link v-bind:to= "topic.get_absolute_url">{{ topic.title }}</router-link>
             </td>
             <td>{{ topic.get_creator }}</td>
             <td>{{ topic.get_last_replier }}</td>
@@ -48,7 +48,7 @@
           </ul>
         </nav>
       </div>
-      <div>
+      <form @submit.prevent="addTopic">
         <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Title</label>
@@ -56,7 +56,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input class="input is-normal" type="text" placeholder="">
+                <input class="input is-normal" type="text" placeholder="" v-model="formData.title">
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <textarea class="textarea is-large" placeholder=""></textarea>
+                <textarea class="textarea" type="text" placeholder="" v-model="formData.content"></textarea>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
           </div>
         </div>
 
-      </div>
+      </form>
     </section>
 
   </div>
@@ -100,12 +100,18 @@
 
 <script>
 import axios from "axios";
+import {toast} from "bulma-toast";
 
 export default {
+  inject:['reload'],
   name: "Discussion",
   data() {
     return {
-      topics: []
+      topics: [],
+      formData: {
+        title: '',
+        content: '',
+      }
     }
   },
   components: {
@@ -124,6 +130,24 @@ export default {
           .catch(error => {
             console.log(error)
           })
+    },
+    addTopic(){
+      axios.post('/api/topic/add/', {
+        'title': this.formData.title,
+        'content': this.formData.content
+      })
+      .then((response => {
+        toast({
+          message: 'This topic was added!',
+          type: 'is-success',
+          dismissible: true,
+          pauseOnHover: true,
+          duration: 2000,
+          position: 'bottom-right',
+        })
+        this.reload()
+      }))
+
     }
   }
 }

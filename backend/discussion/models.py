@@ -24,16 +24,23 @@ class Topic(models.Model):
 
     def get_last_replier(self):
         if TopicReply.objects.filter(topic_id=self.id):
-            rid = TopicReply.objects.filter(topic_id=self.id).last().id
+            rid = TopicReply.objects.filter(topic_id=self.id).last().replier_id
             return User.objects.get(pk=rid).username
         else:
             return ''
+
+    def get_pubtime(self):
+        t = self.pub_time.strftime("%Y-%m-%d %H:%M")
+        return t
 
     def get_update_time(self):
         if TopicReply.objects.filter(topic_id=self.id):
             return TopicReply.objects.filter(topic_id=self).last().pub_time
         else:
-            return self.pub_time
+            return self.pub_time.strftime("%Y-%m-%d %H:%M")
+
+    def get_absolute_url(self):
+        return f'/topic/{self.id}/'
 
 
     def __str__(self):
@@ -47,6 +54,10 @@ class TopicReply(models.Model):
 
     class Meta:
         ordering = ('pub_time',)
+
+    def get_pubtime(self):
+        t = self.pub_time.strftime("%Y-%m-%d %H:%M")
+        return t
 
     def get_replier(self):
         un = User.objects.get(pk=self.replier_id).username
