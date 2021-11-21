@@ -1,6 +1,6 @@
 <template>
   <div class="column col-4">
-    <router-link v-bind:to= "company.get_absolute_url">
+    <router-link target="_blank" v-bind:to= "company.get_absolute_url">
       <div class="box">
         <article class="media">
           <div class="media-left">

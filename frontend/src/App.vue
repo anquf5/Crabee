@@ -15,30 +15,40 @@
         <router-link to="/company" class="navbar-item">Company</router-link>
         <router-link to="/discussion" class="navbar-item">Discussion</router-link>
         <div class="navbar-item">
-          <div class="buttons">
-            <template v-if="$store.state.isLogin">
-              <div class="buttons">
-                <router-link to="/myaccount" class="button is-light">
-                  <span class="icon-text">
-                    <span class="icon">
-                      <i class="fas fa-user"></i>
-                    </span>
-                    <span>My account</span>
+          <template v-if="$store.state.isLogin">
+            <div class="navbar-item has-dropdown is-hoverable">
+              <router-link to="/myaccount" class="navbar-link">
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-user"></i>
                   </span>
+                  <span>My account</span>
+                </span>
+              </router-link>
+              <div class="navbar-dropdown">
+                <router-link to="/" class="navbar-item">
+                  <span class="icon-text" @click="logout">
+                  <span class="icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                  </span>
+                  <span>Log out</span>
+                </span>
                 </router-link>
               </div>
-            </template>
-            <template v-else>
+            </div>
+          </template>
+          <template v-else>
+            <div class="bottons">
               <router-link to="/login" class="button is-light">
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="fas fa-user"></i>
-                </span>
-                <span>Log in</span>
+            <span class="icon-text">
+              <span class="icon">
+                <i class="fas fa-sign-in-alt"></i>
               </span>
+              <span>Log in</span>
+            </span>
               </router-link>
-            </template>
-          </div>
+            </div>
+          </template>
         </div>
       </div>
     </nav>
@@ -88,6 +98,24 @@ export default {
       this.isRouterAlive = false
       this.$nextTick(function (){
         this.isRouterAlive = true
+      })
+    },
+    logout(){
+      axios.defaults.headers.common["Authorization"] = ""
+      localStorage.removeItem("token")
+      axios.post("/api/token/logout").then(response => {
+            this.$store.commit('removeToken')
+      }).then(location.reload())
+      .catch(error => {
+        if (error.response) {
+          for (const property in error.response.data) {
+            this.errors.push(`${property}: ${error.response.data[property]}`)
+          }
+        } else {
+          this.errors.push('Something went wrong. Please try again')
+
+          console.log(JSON.stringify(error))
+        }
       })
     }
   }
