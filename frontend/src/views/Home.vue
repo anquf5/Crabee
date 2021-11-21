@@ -36,7 +36,7 @@
 import axios from 'axios'
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-import CompanyBox from "../components/CompanyBox";
+import CompanyBox from "../components/CompanyBox.vue";
 
 export default {
   name: 'Home',

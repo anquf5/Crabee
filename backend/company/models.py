@@ -8,6 +8,8 @@ from django.db import models
 from django.db.models import Avg
 from django.template.defaultfilters import slugify
 
+from userprofile.models import UserProfile
+
 TITLE_MAX_LENGTH = 128
 CONTENT_MAX_LENGTH = 1000
 class Company(models.Model):
@@ -30,6 +32,7 @@ class Company(models.Model):
     def get_absolute_url(self):
         return f'/company/{self.id}/'
 
+
     def get_image(self):
         if self.img:
             return 'http://127.0.0.1:8000' + self.img.url
@@ -47,14 +50,21 @@ class CompanyReview(models.Model):
     pub_time = models.DateTimeField(auto_now=True) # publish date
     rate = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=0)
     iv_difficulty = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(2)], default=0) # interview difficulty
-    reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review")
 
     class Meta:
         ordering = ('-pub_time',)
 
     def get_reviewer(self):
-        un = User.objects.get(pk=self.reviewer_id).username
-        return un
+        u = self.reviewer.username
+        return u
+
+    def get_user_avatar(self):
+        u = UserProfile.objects.filter(user = self.reviewer).all()
+        if u.exists():
+            return u[0].__str__()
+        else:
+            return ''
 
     def get_pubtime(self):
         t = self.pub_time.strftime("%Y-%m-%d %H:%M")

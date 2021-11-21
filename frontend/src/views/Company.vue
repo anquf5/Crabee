@@ -110,9 +110,14 @@
             <div v-for="review in company.review" v-bind:key="review.id" v-bind:company="company">
               <div class="columns">
                 <div class="column is-2 mt-3">
-                  <p class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png">
-                  </p>
+                  <div class="image is-64x64">
+                    <div v-if="review.get_user_avatar !== '' ">
+                      <img v-bind:src="review.get_user_avatar">
+                    </div>
+                    <div v-else>
+                      <img :src="require('../assets/default.jpg')">
+                    </div>
+                  </div>
                   <p>{{ review.get_reviewer }}</p>
                 </div>
                 <div class="column is-7">
@@ -139,7 +144,10 @@
           <div class="columns is-multiline">
             <p class="is-size-5 has-text-start mb-2 ml-4 mt-2"><strong>Find other companies</strong></p>
           </div>
-          <CompanyBox v-for="company in otherCompanies" v-bind:key="company.id" v-bind:company="company">
+          <CompanyBox
+              v-for="othercompany in otherCompanies"
+              v-bind:key="othercompany.id"
+              v-bind:company="othercompany">
           </CompanyBox>
         </div>
       </div>
@@ -151,7 +159,7 @@
 <script>
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-import CompanyBox from "../components/CompanyBox";
+import CompanyBox from "../components/CompanyBox.vue";
 export default {
   name: "Company",
   data(){
@@ -195,6 +203,7 @@ export default {
           .get('/api/company/')
           .then(response => {
             this.otherCompanies = response.data
+                // .filter(company => company.id !== this.cid)
           })
           .catch(error => {
             console.log(error)
@@ -210,6 +219,7 @@ export default {
         'difficulty': this.formData.difficulty,
       })
       .then(response => {
+        this.closeForm();
         location.reload();
       })
 

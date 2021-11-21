@@ -54,7 +54,6 @@ class ReviewList(APIView):
 @authentication_classes([authentication.TokenAuthentication])
 def add_review(request):
     cid = int(request.data.get('cid'))
-    (print(request.data))
     company = Company.objects.get(pk=cid)
     review_obj = CompanyReview.objects.get_or_create(company=company, reviewer=request.user)[0]
 

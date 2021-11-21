@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     'company.apps.CompanyConfig',
     'discussion.apps.DiscussionConfig',
+    'userprofile.apps.UserprofileConfig'
 
 ]
 
