@@ -145,8 +145,10 @@ export default {
           duration: 2000,
           position: 'bottom-right',
         })
-        this.reload()
       }))
+      .then(response => {
+        location.reload();
+      })
 
     }
   }

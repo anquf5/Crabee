@@ -11,7 +11,7 @@ from crabee_project import settings
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatar')
+    avatar = models.ImageField(upload_to='avatar', default='avatar/default.jpg')
 
     def __str__(self):
         return self.get_avatar()

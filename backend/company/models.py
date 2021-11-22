@@ -17,13 +17,14 @@ class Company(models.Model):
     intro = models.CharField(max_length=1000)
     link = models.URLField(blank=True)
     img =models.ImageField(upload_to='companyLogo/', blank=True, null=True)
+    on_index = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('id',)
 
     def get_avg(self):
         avg = CompanyReview.objects.filter(company=self).aggregate(Avg('rate'))['rate__avg']
-        return int(avg) if avg else 0
+        return avg if avg else 0
 
     def get_review_num(self):
         num = CompanyReview.objects.filter(company=self).count()

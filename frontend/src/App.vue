@@ -12,7 +12,7 @@
       </div>
 
       <div class="navbar-end">
-        <router-link to="/company" class="navbar-item">Company</router-link>
+        <router-link to="/all_company" class="navbar-item">Company</router-link>
         <router-link to="/discussion" class="navbar-item">Discussion</router-link>
         <div class="navbar-item">
           <template v-if="$store.state.isLogin">
@@ -28,11 +28,11 @@
               <div class="navbar-dropdown">
                 <router-link to="/" class="navbar-item">
                   <span class="icon-text" @click="logout">
-                  <span class="icon">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="icon">
+                      <i class="fas fa-sign-out-alt"></i>
+                    </span>
+                    <span>Log out</span>
                   </span>
-                  <span>Log out</span>
-                </span>
                 </router-link>
               </div>
             </div>
@@ -90,16 +90,7 @@ export default {
   mounted() {
 
   },
-  provide(){
-    return {reload: this.reload}
-  },
   methods: {
-    reload(){
-      this.isRouterAlive = false
-      this.$nextTick(function (){
-        this.isRouterAlive = true
-      })
-    },
     logout(){
       axios.defaults.headers.common["Authorization"] = ""
       localStorage.removeItem("token")

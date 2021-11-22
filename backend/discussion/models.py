@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+from userprofile.models import UserProfile
+
 TITLE_MAX_LENGTH = 128
 CONTENT_MAX_LENGTH = 1000
 
@@ -14,9 +16,16 @@ class Topic(models.Model):
     class Meta:
         ordering = ('-pub_time',)
 
-    def get_creator(self):
-        un = User.objects.get(pk=self.creator_id).username
-        return un
+    def get_username(self):
+        u = self.creator.username
+        return u
+
+    def get_user_avatar(self):
+        u = UserProfile.objects.filter(user = self.creator).all()
+        if u.exists():
+            return u[0].__str__()
+        else:
+            return ''
 
     def get_reply_num(self):
         num = TopicReply.objects.filter(topic=self).count()
@@ -59,9 +68,16 @@ class TopicReply(models.Model):
         t = self.pub_time.strftime("%Y-%m-%d %H:%M")
         return t
 
-    def get_replier(self):
-        un = User.objects.get(pk=self.replier_id).username
-        return un
+    def get_username(self):
+        u = User.objects.get(pk=self.replier_id).username
+        return u
+
+    def get_user_avatar(self):
+        u = UserProfile.objects.filter(user = self.replier).all()
+        if u.exists():
+            return u[0].__str__()
+        else:
+            return ''
 
     def __str__(self):
         return self.reply_cont

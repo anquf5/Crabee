@@ -6,7 +6,7 @@ class TopicSerializer(serializers.ModelSerializer):
         model = Topic
         fields = ('id',
                   'title',
-                  'get_creator',
+                  'get_username',
                   'get_reply_num',
                   'get_last_replier',
                   'get_update_time',
@@ -18,8 +18,9 @@ class ReplySerializer(serializers.ModelSerializer):
         model = TopicReply
         fields = ('id',
                   'get_pubtime',
-                  'get_replier',
+                  'get_username',
                   'reply_cont',
+                  'get_user_avatar',
                   )
 
 class TopicDetailSerializer(serializers.ModelSerializer):
@@ -29,7 +30,8 @@ class TopicDetailSerializer(serializers.ModelSerializer):
         model = Topic
         fields = ('title',
                   'get_pubtime',
-                  'get_creator',
+                  'get_username',
                   'topic_cont',
-                  'reply'
+                  'reply',
+                  'get_user_avatar',
                   )
