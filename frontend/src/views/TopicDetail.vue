@@ -6,7 +6,7 @@
           {{ topic.title }}
         </strong>
         </p>
-        <button class="button is-small mt-4">Reply</button>
+        <button class="button is-small mt-4" @click="go_to_reply">Reply</button>
       </div>
     </section>
     <div>
@@ -15,9 +15,14 @@
           <article class="tile is-child">
             <article class="media">
               <div class="media-left">
-                <figure class="image is-64x64">
-                  <img src="https://bulma.io/images/placeholders/128x128.png">
-                </figure>
+                <div class="image is-64x64">
+                  <div v-if="topic.get_user_avatar !== '' ">
+                    <img v-bind:src="topic.get_user_avatar">
+                  </div>
+                  <div v-else>
+                    <img :src="require('../assets/default.jpg')">
+                  </div>
+                </div>
               </div>
               <div class="media-content">
                 <p>{{ topic.get_creator }}</p>
@@ -34,32 +39,43 @@
           <article class="tile is-child">
             <p class="mx-5">{{ topic.get_pubtime }}</p>
           </article>
-
         </div>
       </div>
+      <hr>
     </div>
     <div v-for="reply in topic.reply" v-bind:key="reply.id" v-bind:topic="topic">
       <div class="tile is-ancestor mt-4 mb-4">
         <div class="tile is-parent is-3">
-          <article class="tile is-child box">
+          <article class="tile is-child">
             <article class="media">
               <div class="media-left">
-                <figure class="image is-64x64">
-                  <img src="https://bulma.io/images/placeholders/128x128.png">
-                </figure>
+                <div class="image is-64x64">
+                  <div v-if="reply.get_user_avatar !== '' ">
+                    <img v-bind:src="reply.get_user_avatar">
+                  </div>
+                  <div v-else>
+                    <img :src="require('../assets/default.jpg')">
+                  </div>
+                </div>
               </div>
               <div class="media-content">
-                <p>{{ reply.get_replier }}</p>
+                <p>{{ reply.get_username }}</p>
               </div>
             </article>
           </article>
         </div>
-        <div class="tile is-parent is-9">
+        <div class="tile is-parent is-6">
           <article class="tile is-child">
             <p class="mx-5">{{ reply.reply_cont }}</p>
           </article>
         </div>
+        <div class="tile is-parent is-3">
+          <article class="tile is-child">
+            <p class="mx-5">{{ reply.get_pubtime }}</p>
+          </article>
+        </div>
       </div>
+      <hr>
     </div>
 
     <form id="reply" @submit.prevent="addReply">
@@ -125,7 +141,13 @@ export default {
       .then(response => {
         location.reload();
       })
-
+    },
+    go_to_reply(){
+      const jump = document.querySelector("#reply");
+      if(!!jump) {
+        jump.scrollIntoView(true);
+      }
+      document.querySelector("go_to_reply").scrollIntoView(true);
     }
   }
 }

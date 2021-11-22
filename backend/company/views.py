@@ -18,11 +18,25 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+class indexCompanyList(APIView):
+    def get(self, request, format=None):
+        companies = Company.objects.filter(on_index=1)
+        if len(companies) > 6:
+            companies = companies[:6]
+        serializer = CompanyListSerializer(companies, many=True)
+        return Response(serializer.data)
+
 
 class CompanyList(APIView):
-
     def get(self, request, format=None):
         companies = Company.objects.all()
+        serializer = CompanyListSerializer(companies, many=True)
+        return Response(serializer.data)
+
+    # get other companies
+    def post(self, request, format=None):
+        cid = request.data.get('company_id')
+        companies = Company.objects.exclude(pk=cid)
         serializer = CompanyListSerializer(companies, many=True)
         return Response(serializer.data)
 
@@ -53,7 +67,7 @@ class ReviewList(APIView):
 @api_view(['POST'])
 @authentication_classes([authentication.TokenAuthentication])
 def add_review(request):
-    cid = int(request.data.get('cid'))
+    cid = request.data.get('cid')
     company = Company.objects.get(pk=cid)
     review_obj = CompanyReview.objects.get_or_create(company=company, reviewer=request.user)[0]
 
@@ -78,7 +92,8 @@ def search(request):
 
     if query:
         companies = Company.objects.filter(Q(name__icontains=query))
-        serializer = CompanySerializer(companies, many=True)
+        serializer = CompanyListSerializer(companies, many=True)
+        print(serializer)
         return Response(serializer.data)
     else:
         return Response({"companies": []})

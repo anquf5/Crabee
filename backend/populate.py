@@ -16,13 +16,6 @@ companies = [{'name': 'Google',
              {'name': 'LinkedIn', 'intro': 'c company', 'link':'www.linkedin.com', 'logo': 'companyLogo/LinkedIn.jpg'}
              ]
 
-users = [{'username': 'diablo', 'password': 'test123', 'email': 'diablo@test.com'},
-        {'username': 'Augenstern', 'password': 'test123', 'email': 'Augenstern@test.com'},
-        {'username': 'yuuki', 'password': 'test123', 'email': 'yuuki@test.com'},
-        {'username': 'flechazo', 'password': 'test123', 'email': 'flechazo@test.com'},
-        {'username': 'espoir', 'password': 'test123', 'email': 'espoir@test.com'},
-]
-
 def populate():
     for company in companies:
         add_company(company['name'], company['intro'], company['link'], company['logo'])
