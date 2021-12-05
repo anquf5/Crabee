@@ -1,4 +1,3 @@
-import datetime
 
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -6,7 +5,7 @@ from django.db import models
 
 # Create your models here.
 from django.db.models import Avg
-from django.template.defaultfilters import slugify
+
 
 from userprofile.models import UserProfile
 
@@ -34,6 +33,7 @@ class Company(models.Model):
         return f'/company/{self.id}/'
 
 
+
     def get_image(self):
         if self.img:
             return 'http://127.0.0.1:8000' + self.img.url
@@ -49,9 +49,10 @@ class CompanyReview(models.Model):
     review_title = models.CharField(max_length=TITLE_MAX_LENGTH)
     review_cont = models.CharField(max_length=CONTENT_MAX_LENGTH) # review content
     pub_time = models.DateTimeField(auto_now=True) # publish date
-    rate = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=0)
-    iv_difficulty = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(2)], default=0) # interview difficulty
+    rate = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
+    iv_difficulty = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)], default=0) # interview difficulty
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review")
+
 
     class Meta:
         ordering = ('-pub_time',)
@@ -70,6 +71,14 @@ class CompanyReview(models.Model):
     def get_pubtime(self):
         t = self.pub_time.strftime("%Y-%m-%d %H:%M")
         return t
+
+    def get_dif(self):
+        if self.iv_difficulty == 0:
+            return 'Easy'
+        if self.iv_difficulty == 1:
+            return 'Medium'
+        if self.iv_difficulty == 2:
+            return 'Difficult'
 
     def __str__(self):
         return self.review_title
