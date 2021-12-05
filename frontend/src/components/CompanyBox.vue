@@ -12,7 +12,7 @@
             <h4>
               <strong>{{ company.name }}</strong>
             </h4>
-            <p><star :size="36" :score="company.get_avg"/></p>
+            <p><star :size="36" :score="company.get_avg" :max_length="5"/></p>
             <p>{{ company.get_review_num }} reviews</p>
           </div>
         </article>

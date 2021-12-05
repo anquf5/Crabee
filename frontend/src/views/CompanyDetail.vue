@@ -37,14 +37,28 @@
             <div class="content">
               <h3><strong>Reviews <small>({{ company.get_review_num }})</small></strong></h3>
             </div>
-            <button class="button is-success modal-button" data-target="review-form" @click="showForm">
+            <div>
+              <template v-if="$store.state.isLogin">
+                <button class="button is-success modal-button" data-target="review-form" @click="showForm">
                   <span class="icon-text">
                     <span class="icon">
                       <i class="fas fa-plus"></i>
                     </span>
                     <span><strong>Write a review</strong></span>
                   </span>
-            </button>
+                </button>
+              </template>
+              <template v-else>
+                <button class="button is-success modal-button" @click="jump('/login')">
+                  <span class="icon-text">
+                    <span class="icon">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span><strong>Write a review</strong></span>
+                  </span>
+                </button>
+              </template>
+            </div>
             <div class="modal" v-bind:class="{'is-active': isActive}">
               <div class="modal-background"></div>
               <div class="modal-card">
@@ -139,10 +153,12 @@
                   <div class="block">
                     <div class="columns is-multiline">
                       <div class="column is-6">
-                        <p class="is-size-6 has-text-grey ml-4">Rate: <star :size="36" :score="review.rate"/></p>
+                        <p class="is-size-6 has-text-grey ml-4">Rate: <star :size="36" :score="review.rate" :max_length="5"/></p>
                       </div>
                       <div class="column is-6">
-                        <p class="is-size-6 has-text-grey">Difficulty: <star :size="36" :score="review.iv_difficulty"/></p>
+                        <div class="is-size-6 has-text-grey">Interview Difficulty:
+                          <p>{{ review.get_dif}}</p>
+                        </div>
                       </div>
                       <div class="column is-12">
                         <p class="is-size-6 has-text-grey-darker">{{ review.review_cont }}</p>

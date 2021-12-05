@@ -1,9 +1,8 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from django.http import Http404, JsonResponse
 # Create your views here.
-from rest_framework import authentication
-from rest_framework.decorators import api_view, authentication_classes
+from rest_framework import authentication, permissions
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
 from .models import Topic, TopicReply
 from .serializers import TopicSerializer, TopicDetailSerializer
@@ -32,17 +31,23 @@ class TopicDetail(APIView):
 @api_view(['POST'])
 @authentication_classes([authentication.TokenAuthentication])
 def add_topic(request):
+    if request.user.id == None:
+        request.user = User.objects.get(username="admin")
+
     topic_obj = Topic.objects.create(creator=request.user)
     topic_obj.title = request.data.get('title')
     topic_obj.topic_cont = request.data.get('content')
     topic_obj.save()
-    return JsonResponse({'msg': '1', 'code': '200'})
+    return JsonResponse({'msg': 'OK'})
 
 @api_view(['POST'])
 @authentication_classes([authentication.TokenAuthentication])
 def add_reply(request):
+    if request.user.id == None:
+        request.user = User.objects.get(username="admin")
+
     topic = Topic.objects.get(pk=request.data.get('tid'))
     reply_obj = TopicReply.objects.create(topic=topic, replier=request.user)
     reply_obj.reply_cont = request.data.get('content')
     reply_obj.save()
-    return JsonResponse({'msg': '1', 'code': '200'})
+    return JsonResponse({'msg': 'OK'})

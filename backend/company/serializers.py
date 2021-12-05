@@ -12,7 +12,7 @@ class CompanyListSerializer(serializers.ModelSerializer):
                   'get_image',
                   'get_absolute_url',
                   'get_review_num',
-                  'get_avg'
+                  'get_avg',
                   )
 
 
@@ -26,7 +26,7 @@ class CompanyReviewSerializer(serializers.ModelSerializer):
                   'review_cont',
                   'get_pubtime',
                   'rate',
-                  'iv_difficulty',
+                  'get_dif',
                   'get_reviewer',
                   'get_user_avatar',
         )

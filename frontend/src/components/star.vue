@@ -8,7 +8,6 @@
 </template>
 
 <script>
-const LENGTH = 5;
 const CLS_ON = "on";
 const CLS_HALF = "half";
 const CLS_OFF = "off";
@@ -25,6 +24,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    max_length: {
+      type : Number
+    }
   },
   computed: {
     rate(){
@@ -33,6 +35,7 @@ export default {
     starRate(){
       const result = [];
       let score = this.score;
+      let max_length = this.max_length;
       let onstar = parseInt(this.score);
       let hasDecimal = score % 1 !==0;
       for(let i = 0; i < onstar; i++){
@@ -41,7 +44,7 @@ export default {
       if(hasDecimal){
         result.push(CLS_HALF);
       }
-      while(result.length < LENGTH){
+      while(result.length < max_length){
         result.push(CLS_OFF);
       }
       return result;

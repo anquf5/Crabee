@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
     'company.apps.CompanyConfig',
     'discussion.apps.DiscussionConfig',
-    'userprofile.apps.UserprofileConfig'
+    'userprofile.apps.UserprofileConfig',
 
 ]
 
@@ -116,8 +116,12 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': []
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
