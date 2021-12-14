@@ -26,7 +26,7 @@
             <th>{{ topic.get_reply_num }}</th>
             <td><router-link v-bind:to= "topic.get_absolute_url">{{ topic.title }}</router-link>
             </td>
-            <td>{{ topic.get_creator }}</td>
+            <td>{{ topic.get_username }}</td>
             <td>{{ topic.get_last_replier }}</td>
             <td>{{ topic.get_update_time }}</td>
           </tr>
