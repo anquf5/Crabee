@@ -25,7 +25,7 @@
                 </div>
               </div>
               <div class="media-content">
-                <p>{{ topic.get_creator }}</p>
+                <p class="is-size-6">{{ topic.get_username }}</p>
               </div>
             </article>
           </article>
